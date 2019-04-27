@@ -1,4 +1,4 @@
-package com.qqj.dao;
+package com.qqj.module;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
