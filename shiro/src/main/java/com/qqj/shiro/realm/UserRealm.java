@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
  * <p>
  * Version: 1.0
  */
+@Component("authorizer")
 public class UserRealm extends AuthorizingRealm
 {
     @Autowired
@@ -67,5 +68,39 @@ public class UserRealm extends AuthorizingRealm
                 getName() // realm name
         );
         return authenticationInfo;
+    }
+
+    @Override
+    public void clearCachedAuthorizationInfo(PrincipalCollection principals)
+    {
+        super.clearCachedAuthorizationInfo(principals);
+    }
+
+    @Override
+    public void clearCachedAuthenticationInfo(PrincipalCollection principals)
+    {
+        super.clearCachedAuthenticationInfo(principals);
+    }
+
+    @Override
+    public void clearCache(PrincipalCollection principals)
+    {
+        super.clearCache(principals);
+    }
+
+    public void clearAllCachedAuthorizationInfo()
+    {
+        getAuthorizationCache().clear();
+    }
+
+    public void clearAllCachedAuthenticationInfo()
+    {
+        getAuthenticationCache().clear();
+    }
+
+    public void clearAllCache()
+    {
+        clearAllCachedAuthenticationInfo();
+        clearAllCachedAuthorizationInfo();
     }
 }

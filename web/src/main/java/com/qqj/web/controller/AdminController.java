@@ -13,6 +13,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 /**
  *
  * @author jobob
@@ -49,7 +50,6 @@ public class AdminController {
 
     @RequestMapping(value="/resetPassword")
     public <T> Result reset(@RequestParam Integer id){
-
         Admin admin = adminService.getById(id);
         admin.setPassword("12345678");
         passwordHelper.encryptPassword(admin);
