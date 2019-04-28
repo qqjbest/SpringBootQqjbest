@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qqj.mapper.StrategyMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.qqj.entity.Strategy">
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="remark" property="remark" />
+        <result column="permission" property="permission" />
+        <result column="type" property="type" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        name, remark, permission, type, status, create_time, update_time
+    </sql>
+
+    <select id="getStrategyByAccount" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT
+        s.name
+        FROM
+        admin a,
+        role r,
+        admin_role ar,
+        strategy s,
+        role_strategy rs
+        WHERE
+        a.account = #{account,jdbcType=VARCHAR}
+        AND s.`status` = 1
+        AND a.id = ar.admin_id
+        AND r.id = ar.role_id
+        AND s.id = rs.strategy_id
+    </select>
+
+    <select id="getPermissionByAccount" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT
+        concat(s.name,':',s.permission)
+        FROM
+        admin a,
+        role r,
+        admin_role ar,
+        strategy s,
+        role_strategy rs
+        WHERE
+        a.account = #{account,jdbcType=VARCHAR}
+        AND s.`status` = 1
+        AND a.id = ar.admin_id
+        AND r.id = ar.role_id
+        AND s.id = rs.strategy_id
+    </select>
+</mapper>
