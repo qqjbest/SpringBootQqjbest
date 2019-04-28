@@ -63,10 +63,10 @@ public class UserRealm extends AuthorizingRealm
 
         // 交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user.getAccount(), // 用户名
-                user.getPassword(), // 密码
-                ByteSource.Util.bytes(user.getCredentialsSalt()), // salt=username+salt
-                getName() // realm name
-        );
+            user.getPassword(), // 密码
+            ByteSource.Util.bytes(user.getCredentialsSalt()), // salt=username+salt
+            getName() // realm name
+    );
         return authenticationInfo;
     }
 
