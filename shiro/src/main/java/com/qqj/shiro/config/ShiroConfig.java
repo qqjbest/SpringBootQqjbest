@@ -114,8 +114,8 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilters(filters);
 
         Map<String, String> filterChainDefinitionManager = new LinkedHashMap<String, String>();
-        filterChainDefinitionManager.put("/common/admin/index", "authc");
-        filterChainDefinitionManager.put("/common/admin/login", "anon");
+    /*    filterChainDefinitionManager.put("/common/admin/index", "authc");
+        filterChainDefinitionManager.put("/common/admin/login", "anon");*/
         filterChainDefinitionManager.put("/**", "anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
 

@@ -15,6 +15,7 @@ import java.util.Date;
  * @author jobob
  * @since 2019-04-25
  */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)

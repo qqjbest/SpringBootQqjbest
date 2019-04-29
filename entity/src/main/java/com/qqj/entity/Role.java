@@ -36,7 +36,7 @@ public class Role implements Serializable {
     /**
      * 状态
      */
-    private Integer status;
+    private Byte status;
 
     /**
      * 创建时间

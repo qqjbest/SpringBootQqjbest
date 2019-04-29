@@ -3,11 +3,15 @@ package com.qqj.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qqj.entity.Admin;
+import com.qqj.entity.AdminRole;
 import com.qqj.mapper.AdminMapper;
+import com.qqj.service.IAdminRoleService;
 import com.qqj.service.IAdminService;
 import com.qqj.util.ValidatorUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +26,10 @@ import java.util.Map;
  */
 @Service
 public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements IAdminService {
+
+    @Autowired
+    private IAdminRoleService adminRoleService;
+
     @Override
     public List<Admin> getName() {
         QueryWrapper<Admin> q = new QueryWrapper();
@@ -40,5 +48,32 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             return adminusers.get(0);
         }
         return null;
+    }
+
+    @Override
+    public List<Admin> getAllByMap(Map<String, Object> search) {
+        return baseMapper.getAllByMap(search);
+    }
+
+    @Override
+    public void saveAdminAndRoles(Admin admin, String roles) {
+        baseMapper.updateById(admin);
+        addTrainRecordBatchAdminRole(admin.getId(), roles);
+    }
+
+
+    private void addTrainRecordBatchAdminRole(Long id, String roles) {
+        if (ValidatorUtil.isNotNull(roles))
+        {
+            List<AdminRole> adminRoles = new ArrayList<>();
+            for (String rolesId : roles.split(","))
+            {
+                AdminRole tempKey = new AdminRole();
+                tempKey.setAdminId(id);
+                tempKey.setRoleId(Long.parseLong(rolesId));
+                adminRoles.add(tempKey);
+            }
+            adminRoleService.addTrainRecordBatch(adminRoles);
+        }
     }
 }

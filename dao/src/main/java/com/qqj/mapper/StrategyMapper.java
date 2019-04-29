@@ -3,6 +3,8 @@ package com.qqj.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qqj.entity.Strategy;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -31,4 +33,27 @@ public interface StrategyMapper extends BaseMapper<Strategy> {
      */
     Set<String> getPermissionByAccount(String account);
 
+    /**
+     * 根据角色id获取策略列表
+     *
+     * @author: qjqiu  qjqiu@onlyou.com
+     * @Date: 2019-04-29 16:44
+     */
+    List<Strategy> getByRoleId(Long id);
+
+    /**
+     * 获取全部
+     *
+     * @author: qjqiu  qjqiu@onlyou.com
+     * @Date: 2019-04-29 16:49
+     */
+    List<Strategy> getAllByMap(Map<String, Object> params);
+
+    /**
+     * 批量删除
+     *
+     * @author: qjqiu  qjqiu@onlyou.com
+     * @Date: 2019-04-29 16:52
+     */
+    void deleteByPrimaryKeys(Long[] longs);
 }

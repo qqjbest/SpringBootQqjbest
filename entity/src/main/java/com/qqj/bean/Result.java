@@ -6,19 +6,20 @@ package com.qqj.bean;
  * @create 2019-04-26
  */
 public class Result<T> {
-    private ResultCodeEnum code;
-    private String message;
+    private String status;
+    private String errCode;
+    private String message = "";
     private  T data;
 
-    public ResultCodeEnum getCode() {
-        return code;
+    public String getStatus() {
+        return status;
     }
 
     public Result() {
     }
 
-    public Result setCode(ResultCodeEnum resultCode) {
-        this.code = resultCode;
+    public Result setStatus(ResultCodeEnum status) {
+        this.status = status.getStatus();
         return this;
     }
 
@@ -29,6 +30,14 @@ public class Result<T> {
     public Result setMessage(String message) {
         this.message = message;
         return this;
+    }
+
+    public String getErrCode() {
+        return errCode;
+    }
+
+    public void setErrCode(String errCode) {
+        this.errCode = errCode;
     }
 
     public T getData() {

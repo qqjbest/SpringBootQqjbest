@@ -46,7 +46,6 @@ public class UserRealm extends AuthorizingRealm
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException
     {
-
         String username = (String) token.getPrincipal();
 
         Admin user = adminuserService.findByAccount(username);

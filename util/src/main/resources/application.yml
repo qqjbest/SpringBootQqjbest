@@ -1,0 +1,10 @@
+#通用参数配置
+common:
+  #服务器地址
+  website: http://35.236.28.22/
+  #服务器ip
+  serviceIp: 35.236.28.22
+  #基础地址
+  baseImg: http://35.236.28.22/upload/img/
+
+

@@ -17,7 +17,14 @@
         id,
         name, remark, permission, type, status, create_time, update_time
     </sql>
-
+    <delete id="deleteByPrimaryKeys" parameterType="java.lang.Long">
+        DELETE FROM strategy
+        WHERE id in
+        <foreach item="item" index="index" collection="array" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
     <select id="getStrategyByAccount" resultType="java.lang.String" parameterType="java.lang.String">
         SELECT
         s.name
@@ -50,5 +57,45 @@
         AND a.id = ar.admin_id
         AND r.id = ar.role_id
         AND s.id = rs.strategy_id
+    </select>
+    <select id="getByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        s.id, name, remark, permission, type, status, create_time, update_time
+        from strategy s, role_strategy rs
+        where s.`status` = 0 AND s.id = rs.strategy_id AND rs.role_id = #{roleId,jdbcType=BIGINT}
+  </select>
+
+    <select id="getAllByMap" parameterType="java.util.Map"
+            resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        strategy
+        WHERE 1=1
+        <if test="id != null">
+            AND id = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="name != null and name.trim() != ''">
+            and name like concat('%', #{name,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="remark != null">
+            AND remark = #{remark,jdbcType=VARCHAR}
+        </if>
+        <if test="permission != null">
+            AND permission = #{permission,jdbcType=TINYINT}
+        </if>
+        <if test="type != null">
+            AND type = #{type,jdbcType=BIT}
+        </if>
+        <if test="status != null">
+            AND status = #{status,jdbcType=TINYINT}
+        </if>
+        <if test="createTime != null">
+            AND create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateTime != null">
+            AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+        ORDER BY id DESC
     </select>
 </mapper>
