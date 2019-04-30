@@ -33,12 +33,18 @@
             ${table.name}
         WHERE 1=1
         <#list table.fields as field>
-          <if test="${field.propertyName} != null">
-              AND ${field.name} = ${"#"}{${field.propertyName}}
-          </if>
+            <#if field.propertyType?starts_with("String")>
+                 <if test="${field.propertyName} != null AND ${field.propertyName}.trim() != ''">
+                     AND ${field.name} = ${"#"}{${field.propertyName}}
+                 </if>
+            </#if>
+            <#if !field.propertyType?starts_with("String")>
+                <if test="${field.propertyName} != null">
+                    AND ${field.name} = ${"#"}{${field.propertyName}}
+                </if>
+            </#if>
         </#list>
     </select>
-
 
     <select id="countByMap" resultType="java.lang.Long" parameterType="java.util.Map" >
         select
@@ -47,9 +53,16 @@
          ${table.name}
         where 1=1
         <#list table.fields as field>
-          <if test="${field.propertyName} != null">
-              AND ${field.name} = ${"#"}{${field.propertyName}}
-          </if>
+            <#if field.propertyType?starts_with("String")>
+                 <if test="${field.propertyName} != null AND ${field.propertyName}.trim() != ''">
+                     AND ${field.name} = ${"#"}{${field.propertyName}}
+                 </if>
+            </#if>
+            <#if !field.propertyType?starts_with("String")>
+                 <if test="${field.propertyName} != null">
+                     AND ${field.name} = ${"#"}{${field.propertyName}}
+                 </if>
+            </#if>
         </#list>
     </select>
 
