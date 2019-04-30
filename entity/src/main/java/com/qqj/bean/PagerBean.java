@@ -1,6 +1,8 @@
 package com.qqj.bean;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -10,6 +12,9 @@ import java.util.Map;
 
 
 public class PagerBean<T>{
+
+    private static Logger logger = LoggerFactory.getLogger(PagerBean.class);
+
     // 排序方式
     public enum OrderType
     {
@@ -193,7 +198,7 @@ public class PagerBean<T>{
         }
         catch (Exception e)
         {
-//            logger.error("非法的排序");
+            logger.error("非法的排序");
         }
     }
 
