@@ -36,7 +36,7 @@
         role_strategy rs
         WHERE
         a.account = #{account,jdbcType=VARCHAR}
-        AND s.`status` = 1
+        AND s.`status` = 0
         AND a.id = ar.admin_id
         AND r.id = ar.role_id
         AND s.id = rs.strategy_id
@@ -53,7 +53,7 @@
         role_strategy rs
         WHERE
         a.account = #{account,jdbcType=VARCHAR}
-        AND s.`status` = 1
+        AND s.`status` = 0
         AND a.id = ar.admin_id
         AND r.id = ar.role_id
         AND s.id = rs.strategy_id

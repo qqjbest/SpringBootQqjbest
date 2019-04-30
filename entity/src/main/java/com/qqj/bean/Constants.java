@@ -14,7 +14,7 @@ public class Constants {
     /** Api访问返回状态码 - 1：访问成功 **/
     public final static String API_STATUS_SUCCESS = "1";
     /** 数据状态 1正常状态 **/
-    public final static byte DATA_STATUS_NORMAL = 1;
+    public final static byte DATA_STATUS_NORMAL = 0;
     /** 数据状态 2删除状态 **/
-    public final static byte DATA_STATUS_DEL = 2;
+    public final static byte DATA_STATUS_DEL = 1;
 }

@@ -1,5 +1,6 @@
 package com.qqj.bean;
 
+
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -7,10 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PagerBean<T>
-{
-//    private Logger logger = LogManager.getLogger(PagerBean.class);
 
+public class PagerBean<T>{
     // 排序方式
     public enum OrderType
     {

@@ -3,10 +3,7 @@ package com.qqj.web.controller;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.qqj.bean.Key;
-import com.qqj.bean.PagerBean;
-import com.qqj.bean.Result;
-import com.qqj.bean.ResultGenerator;
+import com.qqj.bean.*;
 import com.qqj.entity.Admin;
 import com.qqj.entity.AdminRole;
 import com.qqj.form.FormAdmin;
@@ -66,6 +63,7 @@ public class AdminController {
             Set<String> roleStrategy = strategyService.getPermissionByAccount(admin.getAccount());
             Admin retAdmin = adminService.findByAccount(admin.getAccount());
             CommonUtil.copyPropertiesIgnoreNull(retAdmin, voLoginAdmin);
+            voLoginAdmin.setRoleId(3);
             voLoginAdmin.setRoleStrategy(roleStrategy);
         }
         catch (UnknownAccountException e)
@@ -121,7 +119,7 @@ public class AdminController {
         if (pager.isPage())
         {
             Page<Admin> page = PageHelper.startPage(pager.getCurPage(), pager.getLimit());
-            roleService.getAllByMap(pager.getSearch());
+            adminService.getAllByMap(pager.getSearch());
             pager.setRowData(page.getResult());
             pager.setTotal((int) page.getTotal());
         }
@@ -280,6 +278,7 @@ public class AdminController {
         Admin newAdmin = new Admin();
         CommonUtil.copyPropertiesIgnoreNull(admin, newAdmin);
         newAdmin.setPassword("1234567");
+        newAdmin.setStatus(Constants.DATA_STATUS_NORMAL);
         passwordHelper.encryptPassword(newAdmin);
         adminService.saveAdminAndRoles(newAdmin, admin.getRoles());
         return ResultGenerator.genSuccessResult();

@@ -1,6 +1,5 @@
 server:
-  port: 8080
-
+  port: 8881
 spring:
   datasource:
     type:  com.alibaba.druid.pool.DruidDataSource
@@ -21,6 +20,7 @@ mybatis-plus:
 #  type-aliases-package:
   configuration:
     map-underscore-to-camel-case: true
+#    log-impl: org.apache.ibatis.logging.log4j.Log4jImpl
   global-config:
     db-config:
       #主键类型
@@ -36,3 +36,6 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
+logging:
+  config: classpath:log4j2.xml

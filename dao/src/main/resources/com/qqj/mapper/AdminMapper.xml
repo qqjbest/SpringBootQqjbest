@@ -17,8 +17,7 @@
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,
-        name, avatar, account, password, salt, locked, status, create_time, update_time
+        id,name, avatar, account, password, salt, locked, status, create_time, update_time
     </sql>
     <select id="getAllByMap" parameterType="java.util.Map"
             resultMap="BaseResultMap">
@@ -33,7 +32,7 @@
         <if test="avatar != null">
             AND avatar = #{avatar}
         </if>
-        <if test="account != null">
+        <if test="account != null and account.trim() != '' ">
             AND account = #{account}
         </if>
         <if test="password != null">

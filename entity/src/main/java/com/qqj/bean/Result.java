@@ -7,7 +7,7 @@ package com.qqj.bean;
  */
 public class Result<T> {
     private String status;
-    private String errCode;
+    private String errCode = "";
     private String message = "";
     private  T data;
 

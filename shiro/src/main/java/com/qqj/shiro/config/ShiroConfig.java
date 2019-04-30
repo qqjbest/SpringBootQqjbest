@@ -10,14 +10,12 @@ import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.filter.authc.LogoutFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -106,13 +104,13 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager());
 
-        Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
+    /*    Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
         LogoutFilter logoutFilter = new LogoutFilter();
         logoutFilter.setRedirectUrl("/login");
 //        filters.put("logout",null);
 //        filters.put("authc", new AjaxPermissionsAuthorizationFilter());
         shiroFilterFactoryBean.setFilters(filters);
-
+*/
         Map<String, String> filterChainDefinitionManager = new LinkedHashMap<String, String>();
     /*    filterChainDefinitionManager.put("/common/admin/index", "authc");
         filterChainDefinitionManager.put("/common/admin/login", "anon");*/

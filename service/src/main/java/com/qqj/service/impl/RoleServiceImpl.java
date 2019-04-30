@@ -89,7 +89,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 
     @Override
     public List<Role> getAllByMap(Map<String, Object> params) {
-        return null;
+       return baseMapper.getAllByMap(params);
     }
 
     @Override
