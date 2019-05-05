@@ -6,6 +6,9 @@ package com.qqj.bean;
  * @create 2019-04-26
  */
 public class Result<T> {
+    //业务异常
+    public final static String ERR_2000_BUSINESS_ERR = "2000";
+
     private String status;
     private String errCode = "";
     private String message = "";

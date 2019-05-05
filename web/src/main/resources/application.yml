@@ -30,7 +30,6 @@ mybatis-plus:
       #驼峰下划线转换
       db-type: mysql
 
-
 pagehelper:
   helperDialect: mysql #设置sql语言
   reasonable: true
