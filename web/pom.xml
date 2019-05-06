@@ -34,6 +34,10 @@
 			<groupId>com.qqj</groupId>
 			<artifactId>shiro</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.qqj</groupId>
+			<artifactId>redis</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

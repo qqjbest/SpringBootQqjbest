@@ -6,5 +6,3 @@ common:
   serviceIp: 35.236.28.22
   #基础地址
   baseImg: http://35.236.28.22/upload/img/
-
-

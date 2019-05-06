@@ -4,13 +4,20 @@ package com.qqj.shiro.config;
  * @create 2019-04-26
  */
 
+import com.qqj.conf.CommonYmlUtil;
 import com.qqj.shiro.realm.SessionManager;
 import com.qqj.shiro.realm.UserRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -80,19 +87,73 @@ public class ShiroConfig {
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(userRealm());
+
+        securityManager.setCacheManager(cacheManager());
+
         securityManager.setSessionManager(sessionManager());
-//        securityManager.setCacheManager(ehCacheManager());
+
+        securityManager.setRememberMeManager(rememberManager());
+
         return securityManager;
+    }
+
+    @Bean
+    public SimpleCookie rememberMeCookie(){
+        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+        //<!-- 记住我cookie生效时间30天 ,单位秒;-->
+        simpleCookie.setMaxAge(2592000);
+        return simpleCookie;
+    }
+
+    @Bean
+    public CookieRememberMeManager rememberManager() {
+        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+        cookieRememberMeManager.setCookie(rememberMeCookie());
+        return cookieRememberMeManager;
+    }
+
+    /**
+     * cacheManager缓存redis实现
+     *
+     * @author: qjqiu  qjqiu@onlyou.com
+     * @Date: 2019-05-06 14:02
+     */
+    public CacheManager cacheManager() {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setRedisManager(redisManager());
+        return redisCacheManager;
+    }
+
+    public RedisManager redisManager(){
+        RedisManager redisManager = new RedisManager();
+        CommonYmlUtil redisProperties = redisProperties();
+        String temp = redisProperties().getHost();
+        redisManager.setHost(redisProperties.getHost());
+        redisManager.setPort(Integer.parseInt(redisProperties.getPort()));
+//        redisManager.setTimeout(timeout);
+//        redisManager.setPassword(password);
+        return redisManager;
+    }
+
+    @Bean
+    public CommonYmlUtil redisProperties(){
+        return new CommonYmlUtil();
     }
 
 
     @Bean(name="sessionManager")
     public SessionManager sessionManager() {
         SessionManager sessionManager = new SessionManager();
-//        sessionManager.setSessionDAO();
+        sessionManager.setSessionDAO(redisSessionDAO());
         return sessionManager;
     }
 
+    @Bean
+    public RedisSessionDAO redisSessionDAO(){
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setRedisManager(redisManager());
+        return redisSessionDAO;
+    }
 
 
     /**

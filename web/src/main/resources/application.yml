@@ -1,40 +1,8 @@
 server:
   port: 8881
 spring:
-  datasource:
-    type:  com.alibaba.druid.pool.DruidDataSource
-    druid:
-      url: jdbc:mysql://127.0.0.1:3306/newdemo?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
-      username: root
-      password: sa2016
-
-      stat-view-servlet:
-        login-username: admin
-        login-password: admin
-        enabled: true
-        url-pattern: /druid/*
-
-mybatis-plus:
-  mapper-locations: classpath*:com/qqj/mapper/*.xml
-  type-aliases-package: com.qqj.entity
-#  type-aliases-package:
-  configuration:
-    map-underscore-to-camel-case: true
-#    log-impl: org.apache.ibatis.logging.log4j.Log4jImpl
-  global-config:
-    db-config:
-      #主键类型
-      id-type: id_worker
-      #字段策略
-      field-strategy: not_empty
-      #驼峰下划线转换
-      db-type: mysql
-
-pagehelper:
-  helperDialect: mysql #设置sql语言
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=countSql
-
+  profiles:
+    active: dao,entity,redis,shiro,util
 logging:
   config: classpath:log4j2.xml
+
