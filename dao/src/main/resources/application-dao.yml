@@ -11,7 +11,7 @@ spring:
        login-password: admin
        enabled: true
        url-pattern: /druid/*
-
+    #druid还可设置 IP黑名单和IP白名单
 mybatis-plus:
   mapper-locations: classpath*:com/qqj/mapper/*.xml
   type-aliases-package: com.qqj.entity

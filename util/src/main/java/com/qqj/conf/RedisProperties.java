@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Data
-public class CommonYmlUtil {
+public class RedisProperties {
     @Value("${spring.redis.host}")
     private String host;
 

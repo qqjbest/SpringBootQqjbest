@@ -2,7 +2,6 @@ package com.qqj.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.qqj.entity.Admin;
-import com.qqj.form.FormAdmin;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +15,7 @@ import java.util.Map;
  * @since 2019-04-25
  */
 public interface IAdminService extends IService<Admin> {
+
     public List<Admin> getName();
 
     /**
@@ -35,4 +35,20 @@ public interface IAdminService extends IService<Admin> {
      * @Date: 2019-04-29 16:12
      */
     void saveAdminAndRoles(Admin admin, String roles);
+
+    /**
+     * 根据id获取
+     *
+     * @author: qjqiu  qjqiu@onlyou.com
+     * @Date: 2019-05-07 16:09
+     */
+    Admin getAdminById(Long id);
+
+    /**
+     * 保存admin
+     *
+     * @author: qjqiu  qjqiu@onlyou.com
+     * @Date: 2019-05-07 16:39
+     */
+    void saveAdmin(Admin admin);
 }

@@ -9,6 +9,10 @@ import com.qqj.service.IAdminRoleService;
 import com.qqj.service.IAdminService;
 import com.qqj.util.ValidatorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,6 +33,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Autowired
     private IAdminRoleService adminRoleService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
 
     @Override
     public List<Admin> getName() {
@@ -59,6 +67,35 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public void saveAdminAndRoles(Admin admin, String roles) {
         baseMapper.updateById(admin);
         addTrainRecordBatchAdminRole(admin.getId(), roles);
+    }
+
+    @Override
+//    @Cacheable(value = "admin", key = "#id", cacheManager="cacheManager")
+    @Cacheable(value = "admin")
+    public Admin getAdminById(Long id) {
+        boolean hasKey = redisTemplate.hasKey(id.toString());
+
+        ValueOperations<String, Admin> operations = redisTemplate.opsForValue();
+
+        if(hasKey){
+            Admin admin = operations.get(id.toString());
+            return admin;
+        }
+
+
+        Admin admin = baseMapper.selectById(id);
+        return admin;
+    }
+
+    @Override
+//    @CachePut(value = "admin", key = "#admin.id")
+    @CachePut(value = "admin")
+    public void saveAdmin(Admin admin) {
+        baseMapper.insert(admin);
+
+        ValueOperations<String, Admin> operations = redisTemplate.opsForValue();
+        operations.set(admin.getId().toString(), admin);
+
     }
 
 

@@ -4,7 +4,7 @@ package com.qqj.shiro.config;
  * @create 2019-04-26
  */
 
-import com.qqj.conf.CommonYmlUtil;
+import com.qqj.conf.RedisProperties;
 import com.qqj.shiro.realm.SessionManager;
 import com.qqj.shiro.realm.UserRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -126,8 +126,7 @@ public class ShiroConfig {
 
     public RedisManager redisManager(){
         RedisManager redisManager = new RedisManager();
-        CommonYmlUtil redisProperties = redisProperties();
-        String temp = redisProperties().getHost();
+        RedisProperties redisProperties = shiroRedisProperties();
         redisManager.setHost(redisProperties.getHost());
         redisManager.setPort(Integer.parseInt(redisProperties.getPort()));
 //        redisManager.setTimeout(timeout);
@@ -136,8 +135,8 @@ public class ShiroConfig {
     }
 
     @Bean
-    public CommonYmlUtil redisProperties(){
-        return new CommonYmlUtil();
+    public RedisProperties shiroRedisProperties(){
+        return new RedisProperties();
     }
 
 

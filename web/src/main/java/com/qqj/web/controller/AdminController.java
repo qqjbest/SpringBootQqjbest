@@ -51,6 +51,22 @@ public class AdminController {
     @Autowired
     private IAdminRoleService adminRoleService;
 
+    @RequestMapping(value = "/getAdminById", method = RequestMethod.GET)
+    public @ResponseBody Result getAdminById(Long id){
+        Admin admin = adminService.getAdminById(id);
+        return ResultGenerator.genSuccessResult(admin);
+    }
+
+    @RequestMapping(value = "/saveAdmin", method = RequestMethod.POST)
+    public @ResponseBody Result saveAdmin(){
+        Admin admin = new Admin();
+        admin.setName("测试缓存");
+        admin.setAvatar("213");
+        admin.setPassword("321");
+        adminService.saveAdmin(admin);
+        return ResultGenerator.genSuccessResult();
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public @ResponseBody Result login(@ModelAttribute(Key.admin) Admin admin)
     {
