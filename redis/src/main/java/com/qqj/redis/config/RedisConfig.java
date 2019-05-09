@@ -4,6 +4,8 @@ package com.qqj.redis.config;/**
  */
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -95,7 +97,17 @@ public class RedisConfig extends CachingConfigurerSupport {
                 return null;
             }
             String str = new String(bytes, DEFAULT_CHARSET);
-            return (T) JSON.parseObject(str, clazz);
+            String classStr = new String(str);
+            classStr = classStr.replace("@type", "testType");
+            JSONObject entityJson = JSONObject.parseObject(classStr);
+            String packageClassName = entityJson.getString("testType");
+            try {
+                return (T) JSON.parseObject(str, Class.forName(packageClassName));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+//            return (T) JSON.parseObject(str, Admin.class);
+            return null;
         }
     }
 }

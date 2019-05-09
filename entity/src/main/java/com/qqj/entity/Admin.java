@@ -70,25 +70,8 @@ public class Admin implements Serializable {
      */
     private Date updateTime;
 
-
     public String getCredentialsSalt()
     {
         return this.account + this.salt;
-    }
-
-    @Override
-    public String toString() {
-        return "Admin{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", account='" + account + '\'' +
-                ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
-                ", locked=" + locked +
-                ", status=" + status +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
     }
 }

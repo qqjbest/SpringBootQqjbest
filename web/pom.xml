@@ -18,14 +18,14 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
+		<!--<dependency>
 			<groupId>com.qqj</groupId>
 			<artifactId>entity</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.qqj</groupId>
 			<artifactId>dao</artifactId>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>com.qqj</groupId>
 			<artifactId>service</artifactId>
@@ -34,10 +34,10 @@
 			<groupId>com.qqj</groupId>
 			<artifactId>shiro</artifactId>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>com.qqj</groupId>
 			<artifactId>redis</artifactId>
-		</dependency>
+		</dependency>-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -1,31 +1,26 @@
 package com.qqj.web;
 
-import com.qqj.entity.Admin;
 import com.qqj.service.IAdminService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@MapperScan(basePackages = "com.qqj.mapper")
+@EnableCaching
+@ComponentScan({"com.qqj.conf","com.qqj.redis.config","com.qqj.service","com.qqj.shiro.*","com.qqj.web.controller","com.qqj.web.*"})
 public class WebApplicationTests {
-
 	@Autowired
 	private IAdminService adminService;
-
 	@Test
 	public void contextLoads() {
-		Map<String,Object> params = new HashMap<>();
-		params.put("account","");
-		List<Admin> admins = adminService.getAllByMap(params);
-		System.out.println(admins.size());
-
+		adminService.getAdminById(1125951616483082241L);
 	}
 
 }

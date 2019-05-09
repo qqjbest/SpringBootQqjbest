@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -70,32 +69,16 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
     @Override
-//    @Cacheable(value = "admin", key = "#id", cacheManager="cacheManager")
-    @Cacheable(value = "admin")
+    @Cacheable(value = "admin", key = "#id")
     public Admin getAdminById(Long id) {
-        boolean hasKey = redisTemplate.hasKey(id.toString());
-
-        ValueOperations<String, Admin> operations = redisTemplate.opsForValue();
-
-        if(hasKey){
-            Admin admin = operations.get(id.toString());
-            return admin;
-        }
-
-
         Admin admin = baseMapper.selectById(id);
         return admin;
     }
 
     @Override
-//    @CachePut(value = "admin", key = "#admin.id")
-    @CachePut(value = "admin")
+    @CachePut(value = "admin", key = "#admin.id")
     public void saveAdmin(Admin admin) {
         baseMapper.insert(admin);
-
-        ValueOperations<String, Admin> operations = redisTemplate.opsForValue();
-        operations.set(admin.getId().toString(), admin);
-
     }
 
 

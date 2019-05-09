@@ -1,10 +1,11 @@
-package com.qqj.conf;/**
+package com.qqj.conf;
+/**
  * @auther qqjbest qqjbest
  * @create 2019-05-06
  */
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,13 +15,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Data
+@ConfigurationProperties(prefix = "spring.redis")
 public class RedisProperties {
-    @Value("${spring.redis.host}")
     private String host;
 
-    @Value("${spring.redis.port}")
     private String port;
 
-    @Value("${spring.redis.password}")
     private String password;
 }
