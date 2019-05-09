@@ -22,5 +22,25 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 <#else>
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
+    @Override
+    public void enable(Long id)
+    {
+       ${entity}  ${table.entityPath}  = new ${entity}();
+       ${table.entityPath}.setId(id);
+       ${table.entityPath}.setStatus(Constants.DATA_STATUS_NORMAL);
+       ${table.entityPath}.setUpdateTime(DateUtils.getSystemTime());
+       baseMapper.updateById(${table.entityPath});
+    }
+
+    @Override
+    public void disable(Long id)
+    {
+      ${entity}  ${table.entityPath}  = new ${entity}();
+      ${table.entityPath}.setId(id);
+      ${table.entityPath}.setStatus(Constants.DATA_STATUS_DEL);
+      ${table.entityPath}.setUpdateTime(DateUtils.getSystemTime());
+       baseMapper.updateById(${table.entityPath});
+    }
+
 }
 </#if>

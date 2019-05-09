@@ -16,5 +16,8 @@ interface ${table.serviceName} : ${superServiceClass}<${entity}>
 <#else>
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
 
+    void enable(Long id);
+
+    void disable(Long id);
 }
 </#if>

@@ -21,21 +21,21 @@
                 <FormItem prop="id">
                     <input v-model="formValidate.id" name="id" hidden="true"/>
                 </FormItem>
-#foreach($column in $columns)
-#if($column.columnName != $pk.columnName && $column.attrname != 'createTime' && $column.attrname != 'updateTime' && $column.attrname != 'status')
-                <FormItem label="${column.comments}" prop="${column.attrname}">
-                    <Input v-model="formValidate.${column.attrname}" placeholder="请输入${column.comments}"></Input>
-                </FormItem>
-#end
-#if($column.attrname == 'status')
-                <FormItem label="${column.comments}" prop="${column.attrname}">
-                    <i-switch v-model="formValidate.status" size="large" >
-                        <span slot="close">禁用</span>
-                        <span slot="open">正常</span>
-                    </i-switch>
-                </FormItem>
-#end
-#end
+         <#list table.fields as column>
+             <#if (column.keyFlag == false && column.propertyName != 'createTime' && column.propertyName != 'updateTime' && column.propertyName != 'status')>
+                  <FormItem label="${column.comment}" prop="${column.propertyName}">
+                        <Input v-model="formValidate.${column.propertyName}" placeholder="请输入${column.comment}"></Input>
+                    </FormItem>
+            </#if>
+            <#if (column.propertyName == 'status')>
+                    <FormItem label="${column.comment}" prop="${column.propertyName}">
+                        <i-switch v-model="formValidate.status" size="large" >
+                            <span slot="close">禁用</span>
+                            <span slot="open">正常</span>
+                        </i-switch>
+                    </FormItem>
+            </#if>
+         </#list>
             </Form>
         </Modal>
     </div>
@@ -53,24 +53,24 @@
                 sort:'',
                 formValidate: {
                     id:'',
-#foreach($column in $columns)
-#if($column.columnName != $pk.columnName)
-                    $column.attrname:'',
-#end
-#end
+                    <#list table.fields as column>
+                        <#if (column.keyFlag == false)>
+                    ${column.propertyName}:'',
+                        </#if>
+                    </#list>
                 },
                 searchContent:'',
                 ruleValidate: {
-#foreach($column in $columns)
-#if($column.columnName != $pk.columnName)
-                    $column.attrname:[
-                    {
-                        required:true,
-                        message: '${column.comments}不能为空',
-                        trigger:'blur'
-                    }],
-#end
-#end
+                 <#list table.fields as column>
+                     <#if (column.keyFlag == false)>
+                          ${column.propertyName}:[
+                         {
+                             required:true,
+                             message: '${column.comment}不能为空',
+                             trigger:'blur'
+                         }],
+                     </#if>
+                 </#list>
                 },
                 modal1: false,
                 pageSize:10,
@@ -89,55 +89,56 @@
                         key: 'id',
                         sortable: true
                     },
-#foreach($column in $columns)
-#if($column.columnName != $pk.columnName && $column.attrname != 'createTime' && $column.attrname != 'updateTime' && $column.attrname !='status')
-                    {
-                        title: '${column.comments}',
-                        key: '${column.attrname}',
-                        sortable: true
-                    },
-#end
-#if($column.attrname == 'createTime')
-                    {
-                        title: '创建时间',
-                        key: 'createTime',
-                        sortable: true,
-                        render: (h, params) => {
-                            const row = params.row;
+                <#list table.fields as column>
+                    <#if (column.keyFlag == false && column.propertyName != 'createTime' && column.propertyName != 'updateTime' && column.propertyName !='status')>
+                     {
+                         title: '${column.comment}',
+                         key: '${column.propertyName}',
+                         sortable: true
+                     },
+                    </#if>
+                    <#if column.propertyName == 'createTime'>
+                     {
+                         title: '创建时间',
+                         key: 'createTime',
+                         sortable: true,
+                         render: (h, params) => {
+                         const row = params.row;
                             return h('div', util.dateTimeFormat(row.createTime));
                         }
                     },
-#end
-#if($column.attrname == 'updateTime')
-                    {
-                        title: '更新时间',
-                        key: 'updateTime',
-                        sortable: false,
-                        render: (h, params) => {
-                            const row = params.row;
-                            return h('div', util.dateTimeFormat(row.updateTime));
-                        }
-                    },
-#end
-#if($column.attrname == 'status')
+                    </#if>
+                    <#if column.propertyName == 'updateTime'>
+                     {
+                         title: '更新时间',
+                                 key: 'updateTime',
+                             sortable: false,
+                             render: (h, params) => {
+                         const row = params.row;
+                         return h('div', util.dateTimeFormat(row.updateTime));
+                     }
+                     },
+                    </#if >
+                    <#if column.propertyName == 'status'>
                     {
                         title: '状态',
-                        key: 'status',
-                        sortable: true,
-                        render: (h, params) => {
-                            const row = params.row;
-                            const color = row.status==0 ?'green' : 'red';
-                            const text = row.status==0 ? '正常' : '禁用';
-                            return h('Tag', {
-                                props: {
-                                    type: 'dot',
-                                    color: color
-                                }
-                            }, text);
-                        }
+                                key: 'status',
+                            sortable: true,
+                            render: (h, params) => {
+                        const row = params.row;
+                        const color = row.status==0 ?'green' : 'red';
+                        const text = row.status==0 ? '正常' : '禁用';
+                        return h('Tag', {
+                            props: {
+                                type: 'dot',
+                                color: color
+                            }
+                        }, text);
+                    }
                     },
-#end
-#end
+                    </#if>
+
+                </#list>
                     {
                         title: '操作',
                         key: 'action',
@@ -194,7 +195,7 @@
                     'search[sort]':this.sort
                 };
                 var that = this;
-                util.ajaxGet('/admin/${classname}/all', {
+                util.ajaxGet('/admin/${table.entityPath}/all', {
                     params: temp,
                 }).then((response)=>{
                 var data = response.data;
@@ -203,9 +204,9 @@
                 var rows = data.rows;
                 for (let i = 0; i < rows.length; i++) {
                     retData.push({
-#foreach($column in $columns)
-                        ${column.attrname}:rows[i].${column.attrname},
-#end
+                    <#list table.fields as column>
+                        ${column.propertyName}:rows[i].${column.propertyName},
+                    </#list>
                     })
                 }
             })
@@ -233,19 +234,19 @@
             show (index) {
                 this.modal1 = true;
                 this.modalTitle ="编辑";
-                this.#[[$refs]]#['formValidate'].resetFields();
+                this.$refs['formValidate'].resetFields();
                 var id = this.tableData[index].id;
                 var that = this;
-                util.ajaxGet('/admin/${classname}/'+id).then((response)=>{
+                util.ajaxGet('/admin/${table.entityPath}/'+id).then((response)=>{
                     var data = response.data;
-#foreach($column in $columns)
-#if($column.columnName != $pk.columnName && $column.attrname != 'createTime' && $column.attrname != 'updateTime' && $column.attrname !='status')
-                    that.formValidate.${column.attrname} = data.${column.attrname};
-#end
-#if($column.attrname == 'status')
-                    that.formValidate.${column.attrname} = data.${column.attrname} ==0?true:false;
-#end
-#end
+                <#list table.fields as column>
+                <#if (column.keyFlag == false && column.propertyName != 'createTime' && column.propertyName != 'updateTime' && column.propertyName !='status')>
+                    that.formValidate.${column.propertyName} = data.${column.propertyName};
+                </#if>
+                <#if (column.propertyName == 'status')>
+                    that.formValidate.${column.propertyName} = data.${column.propertyName} ==0?true:false;
+                </#if>
+                </#list>
                 }).catch(function (response) {
                     that.$Message.info('fail');
                 });
@@ -254,44 +255,44 @@
                 this.modal1 = true;
                 this.modalTitle = "新增";
                 this.$refs['formValidate'].resetFields();
-#foreach($column in $columns)
-#if($column.attrname == 'status')
-                this.formValidate.${column.attrname} = true;
-#end
-#end
+<#list table.fields as column>
+<#if (column.propertyName == 'status')>
+                this.formValidate.${column.propertyName} = true;
+</#if>
+</#list>
             },
             remove (index) {
-                this.#[[$Modal]]#.confirm({
+                this.$Modal.confirm({
                     title: '提示',
                     content: '<p>确定要删除吗?</p><p></p>',
                     onOk: () => {
                         var ids = this.tableData[index].id;
                         var that = this;
-                        util.ajax({'/admin/${classname}/'+ids, method: 'delete'}).then((response)=>{
+                        util.ajax({'/admin/${table.entityPath}/'+ids, method: 'delete'}).then((response)=>{
                             that.tableData.splice(index, 1);
-                            that.#[[$Message]]#.success('success');
+                            that.$Message.success('success');
                         }).catch(function (response) {
-                            that.#[[$Message]]#.error('fail');
+                            that.$Message.error('fail');
                         });
                     }
                 });
             },
             changeLoading() {
                 this.loading = false;
-                this.#[[$nextTick]]#(() => {
+                this.$nextTick(() => {
                     this.loading = true;
             });
             },
             ok () {
-                this.#[[$refs]]#['formValidate'].validate(valid => {
+                this.$refs['formValidate'].validate(valid => {
 				if(!valid) {
 				return this.changeLoading();
 				}
 				//请求提交表单
-				var ${classname} = {};
-#foreach($column in $columns)
-                ${classname}['${column.attrname}'] = this.formValidate.${column.attrname};
-#end
+				var ${table.entityPath} = {};
+<#list table.fields as column>
+                ${table.entityPath}['${column.propertyName}'] = this.formValidate.${column.propertyName};
+</#list>
                 var method = 'post';
                 if(this.formValidate.id != '')
                 {
@@ -299,14 +300,14 @@
                 }
                 var that = this;
                 util.ajax({
-				url: '/admin/${classname}',
+				url: '/admin/${table.entityPath}',
 				method: method,
-				data: ${classname}
+				data: ${table.entityPath}
 				}).then((response)=>{
-                    that.#[[$Message]]#.success('success');
+                    that.$Message.success('success');
 				})
 				.catch(function (response) {
-                    that.#[[$Message]]#.error('fail');
+                    that.$Message.error('fail');
 				});
 				setTimeout(() => {
 				this.changeLoading();
@@ -320,61 +321,61 @@
                 this.tableData = this.mocktableData(0);
             },
             disable () {
-                var ids = util.getSelectIds(this.#[[$refs]]#['table'].getSelection());
+                var ids = util.getSelectIds(this.$refs['table'].getSelection());
                 if(ids == '')
                 {
-                    this.#[[$Message]]#.warning('请选择一个');
+                    this.$Message.warning('请选择一个');
                     return;
                 }
                 if(ids.split(",").length > 1)
                 {
-                    this.#[[$Message]]#.warning('仅能选择一个');
+                    this.$Message.warning('仅能选择一个');
                     return;
                 }
-                this.#[[$Modal]]#.confirm({
+                this.$Modal.confirm({
                     title: '提示',
                     content: '<p>确定要禁用吗?</p><p></p>',
                     onOk: () => {
                         var postData = {id:ids};
                         var that = this;
                         util.ajax({
-                            url: '/admin/${classname}/disable',
+                            url: '/admin/${table.entityPath}/disable',
                             method: 'post',
                             data: postData
                         }).then((response)=>{
-                            that.#[[$Message]]#.success('success');
+                            that.$Message.success('success');
                         }).catch(function (response) {
-                            that.#[[$Message]]#.error('fail');
+                            that.$Message.error('fail');
                         });
                     }
                 });
             },
             enable () {
-                var ids = util.getSelectIds(this.#[[$refs]]#['table'].getSelection());
+                var ids = util.getSelectIds(this.$refs['table'].getSelection());
                 if(ids == '')
                 {
-                    this.#[[$Message]]#.warning('请选择一个');
+                    this.$Message.warning('请选择一个');
                     return;
                 }
                 if(ids.split(",").length > 1)
                 {
-                    this.#[[$Message]]#.warning('仅能选择一个');
+                    this.$Message.warning('仅能选择一个');
                     return;
                 }
-                this.#[[$Modal]]#.confirm({
+                this.$Modal.confirm({
                     title: '提示',
                     content: '<p>确定要启用吗?</p><p></p>',
                     onOk: () => {
                         var postData = {id:ids};
                         var that = this;
                         util.ajax({
-                            url: '/admin/${classname}/enable',
+                            url: '/admin/${table.entityPath}/enable',
                             method: 'post',
                             data: postData
                         }).then((response)=>{
-                            that.#[[$Message]]#.success('success');
+                            that.$Message.success('success');
                         }).catch(function (response) {
-                            that.#[[$Message]]#.error('fail');
+                            that.$Message.error('fail');
                         });
                     }
                 });

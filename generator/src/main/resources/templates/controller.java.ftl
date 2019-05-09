@@ -99,5 +99,19 @@ public class ${table.controllerName} {
           return ResultGenerator.genSuccessResult();
       }
 
+
+      @RequestMapping(value ="/enable", method = RequestMethod.POST)
+      public @ResponseBody ResponseBean enable(Long id)
+      {
+        ${table.entityPath}Service.enable(id);
+        return toResponseJson();
+      }
+
+	  @RequestMapping(value ="/disable", method = RequestMethod.POST)
+	  public @ResponseBody ResponseBean disable(Long id)
+	  {
+        ${table.entityPath}Service.disable(id);
+	 	return toResponseJson();
+	  }
 }
 </#if>
