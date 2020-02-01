@@ -49,7 +49,6 @@ public class KafkaServiceImpl implements KafkaService {
         pros.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         AdminClient adminClient = AdminClient.create(pros);
         DeleteTopicsOptions options=new DeleteTopicsOptions();
-//        options.timeoutMs(6000);
         DeleteTopicsResult result = adminClient.deleteTopics(Arrays.asList(new String[]{topic}), options);
         Boolean delFlag = result.all().isDone();
         System.out.println(delFlag);
