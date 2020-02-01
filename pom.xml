@@ -23,7 +23,11 @@
 		<module>dao</module>
 		<module>entity</module>
 		<module>util</module>
-	</modules>
+		<module>api</module>
+		<module>consumer</module>
+		<module>provider</module>
+        <module>kafkaDemo</module>
+    </modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
