@@ -99,15 +99,15 @@ public class RedisConfig extends CachingConfigurerSupport {
             String str = new String(bytes, DEFAULT_CHARSET);
             String classStr = new String(str);
             classStr = classStr.replace("@type", "testType");
-            JSONObject entityJson = JSONObject.parseObject(classStr);
-            String packageClassName = entityJson.getString("testType");
             try {
+                JSONObject entityJson = JSONObject.parseObject(classStr);
+                String packageClassName = entityJson.getString("testType");
                 return (T) JSON.parseObject(str, Class.forName(packageClassName));
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+            }finally {
+                return (T) str.substring(1, str.length() -1);
             }
-//            return (T) JSON.parseObject(str, Admin.class);
-            return null;
         }
     }
 }
